@@ -14,11 +14,38 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path, include
-from rest_framework import routers
-from game import views
+from django.urls import path
 
-router = routers.DefaultRouter()
-router.register(r"characters", views.CharacterView, "character")
+from drf_yasg.views import get_schema_view
+from drf_yasg import openapi
 
-urlpatterns = [path("admin/", admin.site.urls), path("game_api/", include(router.urls))]
+from rest_framework.routers import DefaultRouter
+from game.viewsets import *
+
+router = DefaultRouter()
+router.register(r"users", UserViewSet, basename="user")
+router.register(r"characters", CharacterViewSet, basename="character")
+router.register(r"enemies", EnemyViewSet, basename="enemy")
+router.register(r"enemy-loot", EnemyLootViewSet, basename="enemy-loot")
+router.register(r"items", ItemViewSet, basename="item")
+router.register(r"player-classes", PlayerClassViewSet, basename="player-class")
+router.register(
+    r"player-inventories", PlayerInventoryViewSet, basename="player-inventory"
+)
+
+schema_view = get_schema_view(
+    openapi.Info(
+        title="Game API",
+        default_version="v0.0.1",
+        description="This is the API for an as-of-yet untitled RPG.",
+    ),
+    public=False,
+    permission_classes=[permissions.IsAdminUser],
+    patterns=router.urls,
+)
+
+
+urlpatterns = [
+    path("", schema_view.with_ui("swagger", cache_timeout=0), name="game-api-root"),
+    path("admin/", admin.site.urls),
+]
