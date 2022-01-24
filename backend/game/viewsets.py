@@ -1,5 +1,5 @@
-from rest_framework import permissions
 from rest_framework import viewsets
+from rest_framework.permissions import AllowAny
 
 from .serializers import (
     CharacterSerializer,
@@ -30,7 +30,7 @@ class UserViewSet(viewsets.ReadOnlyModelViewSet):
 class CharacterViewSet(viewsets.ModelViewSet):
     queryset = Character.objects.all()
     serializer_class = CharacterSerializer
-    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+    permission_classes = (AllowAny,)
 
     def perform_create(self, serializer):
         serializer.save(owner=self.request.user)
@@ -50,6 +50,7 @@ class ItemViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = Item.objects.all()
     serializer_class = ItemSerializer
 
+
 class PlayerClassViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = PlayerClass.objects.all()
     serializer_class = PlayerClassSerializer
@@ -58,4 +59,3 @@ class PlayerClassViewSet(viewsets.ReadOnlyModelViewSet):
 class PlayerInventoryViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = PlayerInventory.objects.all()
     serializer_class = PlayerInventorySerializer
-

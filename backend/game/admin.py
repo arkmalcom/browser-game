@@ -1,5 +1,4 @@
 from django.contrib import admin
-from django.contrib.auth.admin import UserAdmin
 from .models import (
     Character,
     Enemy,
@@ -8,6 +7,7 @@ from .models import (
     PlayerClass,
     PlayerInventory,
     User,
+    UserAdmin,
 )
 
 # Register your models here.

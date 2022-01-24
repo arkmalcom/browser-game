@@ -45,7 +45,13 @@ class PlayerInventorySerializer(serializers.ModelSerializer):
         model = PlayerInventory
         fields = "__all__"
 
+
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = '__all__'
+        fields = [
+            "id",
+            "email",
+            "is_active",
+        ]
+        read_only_fields = ["is_active", "is_staff"]

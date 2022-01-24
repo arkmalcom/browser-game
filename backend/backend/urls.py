@@ -14,13 +14,14 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
 
 from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
 
 from rest_framework.routers import DefaultRouter
 from game.viewsets import *
+from game.auth.viewsets import *
 
 router = DefaultRouter()
 router.register(r"users", UserViewSet, basename="user")
@@ -39,8 +40,7 @@ schema_view = get_schema_view(
         default_version="v0.0.1",
         description="This is the API for an as-of-yet untitled RPG.",
     ),
-    public=False,
-    permission_classes=[permissions.IsAdminUser],
+    public=True,
     patterns=router.urls,
 )
 
@@ -48,4 +48,5 @@ schema_view = get_schema_view(
 urlpatterns = [
     path("", schema_view.with_ui("swagger", cache_timeout=0), name="game-api-root"),
     path("admin/", admin.site.urls),
+    path("auth/", include(("game.routers", "game"), namespace="auth-api")),
 ]
