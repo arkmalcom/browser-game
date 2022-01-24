@@ -2,35 +2,22 @@ from rest_framework import serializers
 from .models import (
     Character,
     Enemy,
-    EnemyLoot,
     Item,
     PlayerClass,
-    PlayerInventory,
+    Skill,
     User,
 )
-
-
-class CharacterSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Character
-        fields = "__all__"
-
-
-class EnemySerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Enemy
-        fields = "__all__"
-
-
-class EnemyLootSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = EnemyLoot
-        fields = "__all__"
 
 
 class ItemSerializer(serializers.ModelSerializer):
     class Meta:
         model = Item
+        fields = "__all__"
+
+
+class SkillSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Skill
         fields = "__all__"
 
 
@@ -40,10 +27,34 @@ class PlayerClassSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
 
-class PlayerInventorySerializer(serializers.ModelSerializer):
+class CharacterSerializer(serializers.ModelSerializer):
+    inventory = ItemSerializer(many=True, read_only=True)
+
     class Meta:
-        model = PlayerInventory
-        fields = "__all__"
+        model = Character
+        fields = [
+            "name",
+            "HP",
+            "RP",
+            "inventory_size",
+            "user",
+            "player_class",
+            "inventory",
+        ]
+
+    def to_representation(self, instance):
+        rep = super().to_representation(instance)
+        rep["player_class"] = instance.player_class.name
+        rep["user"] = instance.user.email
+        return rep
+
+
+class EnemySerializer(serializers.ModelSerializer):
+    loot = ItemSerializer(many=True, read_only=True)
+
+    class Meta:
+        model = Enemy
+        fields = ["name", "HP", "RP", "loot"]
 
 
 class UserSerializer(serializers.ModelSerializer):

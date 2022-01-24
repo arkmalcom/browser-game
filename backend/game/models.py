@@ -16,7 +16,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = []
 
-    def _str_(self):
+    def __str__(self):
         return self.email
 
 
@@ -49,41 +49,6 @@ class UserManager(BaseUserManager):
         return user
 
 
-class PlayerClass(models.Model):
-    class Meta:
-        verbose_name_plural = "Player Classes"
-
-    name = models.CharField(max_length=32, null=True)
-    description = models.TextField()
-
-    def _str_(self):
-        return self.name
-
-
-class Character(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE, null=True)
-    name = models.CharField(max_length=32, null=True)
-    player_class = models.ForeignKey(PlayerClass, on_delete=models.CASCADE, null=True)
-    HP = models.PositiveIntegerField(default=10)
-    RP = models.PositiveIntegerField(default=0)
-    inventory_size = models.PositiveIntegerField(default=16)
-
-    def _str_(self):
-        return self.name
-
-
-class Enemy(models.Model):
-    class Meta:
-        verbose_name_plural = "Enemies"
-
-    name = models.CharField(max_length=100, null=True)
-    HP = models.PositiveIntegerField(default=5)
-    RP = models.PositiveIntegerField(default=0)
-
-    def _str_(self):
-        return self.name
-
-
 class Item(models.Model):
     EQUIPMENT = "EQ"
     TRASH = "TR"
@@ -99,27 +64,51 @@ class Item(models.Model):
     type = models.CharField(max_length=2, choices=ITEM_TYPE_CHOICES, default=TRASH)
     unique = models.BooleanField(null=False)
 
-    def _str_(self):
+    def __str__(self):
         return self.name
 
 
-class PlayerInventory(models.Model):
+class Enemy(models.Model):
     class Meta:
-        verbose_name_plural = "Player Inventories"
+        verbose_name_plural = "Enemies"
 
-    item_id = models.ForeignKey(
-        Item, on_delete=models.CASCADE, related_name="player_item"
-    )
-    character_id = models.ForeignKey(
-        Character, on_delete=models.CASCADE, related_name="character"
-    )
+    name = models.CharField(max_length=100, null=True)
+    HP = models.PositiveIntegerField(default=5)
+    RP = models.PositiveIntegerField(default=0)
+    loot = models.ManyToManyField(Item)
+
+    def __str__(self):
+        return self.name
 
 
-class EnemyLoot(models.Model):
+class Skill(models.Model):
+
+    name = models.CharField(max_length=100, null=True)
+    description = models.TextField()
+    cost = models.PositiveIntegerField(default=0)
+
+    def __str__(self):
+        return self.name
+
+class PlayerClass(models.Model):
     class Meta:
-        verbose_name_plural = "Enemy Loot"
+        verbose_name_plural = "Player Classes"
 
-    item_id = models.ForeignKey(
-        Item, on_delete=models.CASCADE, related_name="enemy_item"
-    )
-    enemy_id = models.ForeignKey(Item, on_delete=models.CASCADE, related_name="enemy")
+    name = models.CharField(max_length=32, null=True)
+    description = models.TextField()
+    skills = models.ManyToManyField(Skill)
+
+    def __str__(self):
+        return self.name
+
+class Character(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE, null=True)
+    name = models.CharField(max_length=32, null=True)
+    player_class = models.ForeignKey(PlayerClass, on_delete=models.CASCADE, null=True)
+    HP = models.PositiveIntegerField(default=10)
+    RP = models.PositiveIntegerField(default=0)
+    inventory_size = models.PositiveIntegerField(default=16)
+    inventory = models.ManyToManyField(Item)
+
+    def __str__(self):
+        return self.name

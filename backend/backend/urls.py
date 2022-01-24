@@ -27,12 +27,9 @@ router = DefaultRouter()
 router.register(r"users", UserViewSet, basename="user")
 router.register(r"characters", CharacterViewSet, basename="character")
 router.register(r"enemies", EnemyViewSet, basename="enemy")
-router.register(r"enemy-loot", EnemyLootViewSet, basename="enemy-loot")
 router.register(r"items", ItemViewSet, basename="item")
 router.register(r"player-classes", PlayerClassViewSet, basename="player-class")
-router.register(
-    r"player-inventories", PlayerInventoryViewSet, basename="player-inventory"
-)
+router.register(r"skills", SkillViewSet, basename="skill")
 
 schema_view = get_schema_view(
     openapi.Info(
@@ -49,4 +46,4 @@ urlpatterns = [
     path("", schema_view.with_ui("swagger", cache_timeout=0), name="game-api-root"),
     path("admin/", admin.site.urls),
     path("auth/", include(("game.routers", "game"), namespace="auth-api")),
-]
+] + router.urls

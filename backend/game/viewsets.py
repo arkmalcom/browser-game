@@ -4,20 +4,18 @@ from rest_framework.permissions import AllowAny
 from .serializers import (
     CharacterSerializer,
     EnemySerializer,
-    EnemyLootSerializer,
     ItemSerializer,
     PlayerClassSerializer,
-    PlayerInventorySerializer,
+    SkillSerializer,
     UserSerializer,
 )
 
 from .models import (
     Character,
     Enemy,
-    EnemyLoot,
     Item,
     PlayerClass,
-    PlayerInventory,
+    Skill,
     User,
 )
 
@@ -26,6 +24,9 @@ class UserViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerializer
 
+class SkillViewSet(viewsets.ReadOnlyModelViewSet):
+    queryset = Skill.objects.all()
+    serializer_class = SkillSerializer
 
 class CharacterViewSet(viewsets.ModelViewSet):
     queryset = Character.objects.all()
@@ -41,11 +42,6 @@ class EnemyViewSet(viewsets.ReadOnlyModelViewSet):
     serializer_class = EnemySerializer
 
 
-class EnemyLootViewSet(viewsets.ReadOnlyModelViewSet):
-    queryset = EnemyLoot.objects.all()
-    serializer_class = EnemyLootSerializer
-
-
 class ItemViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = Item.objects.all()
     serializer_class = ItemSerializer
@@ -54,8 +50,3 @@ class ItemViewSet(viewsets.ReadOnlyModelViewSet):
 class PlayerClassViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = PlayerClass.objects.all()
     serializer_class = PlayerClassSerializer
-
-
-class PlayerInventoryViewSet(viewsets.ReadOnlyModelViewSet):
-    queryset = PlayerInventory.objects.all()
-    serializer_class = PlayerInventorySerializer

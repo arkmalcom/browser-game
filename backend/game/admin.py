@@ -2,10 +2,9 @@ from django.contrib import admin
 from .models import (
     Character,
     Enemy,
-    EnemyLoot,
     Item,
     PlayerClass,
-    PlayerInventory,
+    Skill,
     User,
     UserAdmin,
 )
@@ -14,7 +13,6 @@ from .models import (
 admin.site.register(User, UserAdmin)
 admin.site.register(Character)
 admin.site.register(Enemy)
-admin.site.register(EnemyLoot)
 admin.site.register(Item)
 admin.site.register(PlayerClass)
-admin.site.register(PlayerInventory)
+admin.site.register(Skill)
