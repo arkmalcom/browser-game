@@ -5,13 +5,16 @@ from .models import (
     Item,
     PlayerClass,
     Skill,
-    User,
-    UserAdmin,
 )
 
 # Register your models here.
-admin.site.register(User, UserAdmin)
-admin.site.register(Character)
+@admin.register(Character)
+class UserAdmin(admin.ModelAdmin):
+    list_display = ("user", "name", "created", "player_class")
+    list_filter = ("created", "user",)
+    readonly_fields = ("created",)
+    ordering = ("user",)
+
 admin.site.register(Enemy)
 admin.site.register(Item)
 admin.site.register(PlayerClass)

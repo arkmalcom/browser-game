@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "corsheaders",
     "drf_yasg",
+    "core",
     "game",
     "rest_framework",
 ]
@@ -116,7 +117,7 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-AUTH_USER_MODEL = "game.User"
+AUTH_USER_MODEL = "core.User"
 
 
 # Internationalization

@@ -5,7 +5,7 @@ from rest_framework.permissions import AllowAny
 from rest_framework import status, viewsets
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework_simplejwt.exceptions import TokenError, InvalidToken
-from game.auth.serializers import LoginSerializer, RegistrationSerializer
+from core.auth.serializers import LoginSerializer, RegistrationSerializer
 
 
 class LoginViewSet(ModelViewSet, TokenObtainPairView):

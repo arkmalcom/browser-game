@@ -1,6 +1,6 @@
 from rest_framework.routers import SimpleRouter
-from game.viewsets import UserViewSet
-from game.auth.viewsets import LoginViewSet, RegistrationViewSet, RefreshViewSet
+from core.viewsets import UserViewSet
+from core.auth.viewsets import LoginViewSet, RegistrationViewSet, RefreshViewSet
 
 
 routes = SimpleRouter()

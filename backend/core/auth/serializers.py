@@ -4,8 +4,8 @@ from rest_framework_simplejwt.settings import api_settings
 from django.contrib.auth.models import update_last_login
 from django.core.exceptions import ObjectDoesNotExist
 
-from game.serializers import UserSerializer
-from game.models import User
+from core.serializers import UserSerializer
+from core.models import User
 
 
 class LoginSerializer(TokenObtainPairSerializer):

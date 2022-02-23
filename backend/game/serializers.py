@@ -5,7 +5,6 @@ from .models import (
     Item,
     PlayerClass,
     Skill,
-    User,
 )
 
 
@@ -55,14 +54,3 @@ class EnemySerializer(serializers.ModelSerializer):
     class Meta:
         model = Enemy
         fields = ["name", "HP", "RP", "loot"]
-
-
-class UserSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = User
-        fields = [
-            "id",
-            "email",
-            "is_active",
-        ]
-        read_only_fields = ["is_active", "is_staff"]

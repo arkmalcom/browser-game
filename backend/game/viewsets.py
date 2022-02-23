@@ -7,7 +7,6 @@ from .serializers import (
     ItemSerializer,
     PlayerClassSerializer,
     SkillSerializer,
-    UserSerializer,
 )
 
 from .models import (
@@ -16,17 +15,13 @@ from .models import (
     Item,
     PlayerClass,
     Skill,
-    User,
 )
 
-
-class UserViewSet(viewsets.ReadOnlyModelViewSet):
-    queryset = User.objects.all()
-    serializer_class = UserSerializer
 
 class SkillViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = Skill.objects.all()
     serializer_class = SkillSerializer
+
 
 class CharacterViewSet(viewsets.ModelViewSet):
     queryset = Character.objects.all()

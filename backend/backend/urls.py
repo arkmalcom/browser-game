@@ -20,6 +20,7 @@ from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
 
 from rest_framework.routers import DefaultRouter
+from core.viewsets import *
 from game.viewsets import *
 from game.auth.viewsets import *
 
@@ -45,5 +46,5 @@ schema_view = get_schema_view(
 urlpatterns = [
     path("", schema_view.with_ui("swagger", cache_timeout=0), name="game-api-root"),
     path("admin/", admin.site.urls),
-    path("auth/", include(("game.routers", "game"), namespace="auth-api")),
+    path("auth/", include(("core.routers", "core"), namespace="auth-api")),
 ] + router.urls
